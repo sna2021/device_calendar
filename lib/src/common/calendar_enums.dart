@@ -5,10 +5,15 @@ enum DayOfWeek {
   Thursday,
   Friday,
   Saturday,
-  Sunday
+  Sunday,
 }
 
-enum DayOfWeekGroup { None, Weekday, Weekend, AllDays }
+enum DayOfWeekGroup {
+  None,
+  Weekday,
+  Weekend,
+  AllDays,
+}
 
 enum MonthOfYear {
   January,
@@ -22,12 +27,23 @@ enum MonthOfYear {
   September,
   October,
   November,
-  December
+  December,
 }
 
-enum WeekNumber { First, Second, Third, Fourth, Last }
+enum WeekNumber {
+  First,
+  Second,
+  Third,
+  Fourth,
+  Last,
+}
 
-enum AttendeeRole { None, Required, Optional, Resource }
+enum AttendeeRole {
+  None,
+  Required,
+  Optional,
+  Resource,
+}
 
 // Adding extensions for enum values as Flutter does not support it yet
 // TODO: Replace this to enum values when introduced. Ref: https://github.com/dart-lang/language/issues/158

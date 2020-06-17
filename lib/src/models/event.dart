@@ -123,7 +123,6 @@ class Event {
     }
 
     availability = json['availability'];
-
   }
 
   Map<String, dynamic> toJson() {
