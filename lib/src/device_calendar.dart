@@ -275,6 +275,12 @@ class DeviceCalendarPlugin {
     return result;
   }
 
+  void showCalendarEvent(String eventId)  {
+    channel.invokeMethod('showCalendarEventMethod',{
+      'eventId':eventId
+    });
+  }
+
   void _parsePlatformExceptionAndUpdateResult<T>(
       Exception exception, Result<T> result) {
     if (exception == null) {

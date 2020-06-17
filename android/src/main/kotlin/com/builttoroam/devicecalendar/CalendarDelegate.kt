@@ -3,10 +3,7 @@ package com.builttoroam.devicecalendar
 import android.Manifest
 import android.graphics.Color;
 import android.annotation.SuppressLint
-import android.content.ContentResolver
-import android.content.ContentUris
-import android.content.ContentValues
-import android.content.Context
+import android.content.*
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
@@ -379,6 +376,13 @@ class CalendarDelegate : PluginRegistry.RequestPermissionsResultListener {
             parameters.event = event
             requestPermissions(parameters)
         }
+    }
+
+
+    fun showCalendarEvent(registrar: Registrar,eventId:String?) {
+        if (eventId == null)return
+        val intent = Intent(Intent.ACTION_VIEW,Uri.parse("content://com.android.calendar/events/$eventId"))
+        registrar.activeContext().startActivity(intent)
     }
 
     private fun deleteExistingReminders(contentResolver: ContentResolver?, eventId: Long) {
@@ -914,6 +918,5 @@ class CalendarDelegate : PluginRegistry.RequestPermissionsResultListener {
         Events.AVAILABILITY_FREE -> Constants.AVAILABILITY_FREE
         else -> null
     }
-
 
 }
