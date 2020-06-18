@@ -10,6 +10,19 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
+//class _MyAppState extends State<MyApp> {
+//  @override
+//  Widget build(BuildContext context) {
+//    return MaterialApp(
+//      routes: {
+//        AppRoutes.calendars: (context) {
+//          return CalendarsPage(key: Key('calendarsPage'));
+//        }
+//      },
+//    );
+//  }
+//}
+
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {

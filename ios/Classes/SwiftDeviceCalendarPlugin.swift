@@ -1,6 +1,7 @@
 import Flutter
 import UIKit
 import EventKit
+import EventKitUI
 
 extension Date {
     var millisecondsSinceEpoch: Double { return self.timeIntervalSince1970 * 1000.0 }
@@ -13,6 +14,8 @@ extension EKParticipant {
 }
 
 public class SwiftDeviceCalendarPlugin: NSObject, FlutterPlugin {
+  
+    
     struct Calendar: Codable {
         let id: String
         let name: String
@@ -82,6 +85,7 @@ public class SwiftDeviceCalendarPlugin: NSObject, FlutterPlugin {
     let retrieveCalendarsMethod = "retrieveCalendars"
     let retrieveEventsMethod = "retrieveEvents"
     let retrieveSourcesMethod = "retrieveSources"
+    let showCalendarEventMethod = "showCalendarEventMethod"
     let createOrUpdateEventMethod = "createOrUpdateEvent"
     let createCalendarMethod = "createCalendar"
     let deleteEventMethod = "deleteEvent"
@@ -143,6 +147,8 @@ public class SwiftDeviceCalendarPlugin: NSObject, FlutterPlugin {
             deleteEvent(call, result)
         case createCalendarMethod:
             createCalendar(call, result)
+        case showCalendarEventMethod:
+            showCalendarEventMethod(call, result)
         default:
             result(FlutterMethodNotImplemented)
         }
@@ -152,6 +158,23 @@ public class SwiftDeviceCalendarPlugin: NSObject, FlutterPlugin {
         let hasPermissions = hasEventPermissions()
         result(hasPermissions)
     }
+    
+    
+    private func showCalendarEventMethod(_ call: FlutterMethodCall, _ result: FlutterResult){
+      let arguments = call.arguments as! Dictionary<String, AnyObject>
+      let eventId = arguments[eventIdArgument] as! String
+      let event = self.eventStore.event(withIdentifier: eventId)
+      if (event == nil) {return}
+      let eventModalVC = EKEventEditViewController()
+      eventModalVC.event = event
+      eventModalVC.eventStore = eventStore
+      eventModalVC.editViewDelegate = self
+      if let rootVC = UIApplication.shared.keyWindow?.rootViewController {
+          rootVC.present(eventModalVC, animated: true, completion: nil)
+      }
+    }
+    
+  
     
     private func createCalendar(_ call: FlutterMethodCall, _ result: FlutterResult) {
         let arguments = call.arguments as! Dictionary<String, AnyObject>
@@ -825,6 +848,13 @@ extension UIColor {
         }
 
         return nil
+    }
+}
+
+extension SwiftDeviceCalendarPlugin: EKEventEditViewDelegate {
+    
+    public func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
+        controller.dismiss(animated: true, completion: nil)
     }
 }
 
